@@ -14,7 +14,11 @@
                 <div class="row">
                 <h1 class="mt-3 enrollment-title">Enrollment Page</h1>
                 <p class="enrollment-desc">New Enrollment</p>
-                {{ Breadcrumbs::render('enrollment') }}
+                <ul class="crumb1">
+                    <li><a href="#">Enrollment</a></li>
+                    <li class="bg-secondary"><a href="#">Payment</a></li>
+                    <li class="bg-secondary"><a href="#">Review</a></li>
+                </ul>
                     <div class="col-md-12">
                         {!! Form::open(["route" => "user.enrollment.post", 'method' => 'post', 'id' => 'enrollment-form',  'enctype'=>"multipart/form-data"]) !!}
                         @include('items.enrollment-form')
@@ -27,11 +31,27 @@
         </div>
     </div>
     <style>
-        .breadcrumb-item + .breadcrumb-item::before {
-        content: ">";
-        color: green;
-        
-    }
+        .crumb1 li
+        {
+            display: inline-block;
+            padding: 15px;
+            background: #3399ff;
+            transform: skew(-20deg);
+            cursor: pointer;
+            opacity: 0.8;
+            width: 100px;
+            pointer-events: none;
+        }
+        .crumb1 li:hover
+        {
+            opacity: 1;
+        }
+        .crumb1 li a
+        {
+            display: block;
+            color: #fff;
+            transform: skew(20deg);
+        }
     </style>
     <script>
         let btn = document.querySelector("#btn-menu");

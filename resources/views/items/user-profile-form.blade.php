@@ -29,7 +29,7 @@
                             <ul>
                                 <li class="editprofile">
                                     <span><a href="{{route('user.updateprofile')}}"><i class="fas fa-pen"></i> Edit Profile</a></span>
-                                    <span><a href=""><i class="fas fa-key"></i> Change Password</a></span>
+                                    <span><a href="{{route('user.changepassword')}}"><i class="fas fa-key"></i> Change Password</a></span>
                                 </li>
                             </ul>
                         </div>

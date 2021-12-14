@@ -1,5 +1,5 @@
 
-<div class="card mb-3 mt-3" >
+<div class="card mb-3 mt-1" >
     <div class="card-header" id="enrollment-header">
         <h1>Program</h1>
     </div>
@@ -91,7 +91,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-danger float-end my-2" form="removeimageform"><i class="fas fa-times"></i> Remove Image</button>
                             @else
-                                <div class="input-group control-group increment mt-2 @error('requiredFile') has-error @enderror @error('requiredFile.*') has-error @enderror" >
+                                <div class="input-group control-group increment mt-2 mb-1 @error('requiredFile') has-error @enderror @error('requiredFile.*') has-error @enderror" >
                                     <input type="file" name="requiredFile[]" value="" multiple class="form-control" accept="image/png, image/svg, image/jpeg, image/jpg">
                                 </div>
                                 <span class="errspan errimgfile" id="errspan">{{ $errors->first('requiredFile') }}</span>

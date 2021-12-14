@@ -39,13 +39,7 @@
                                     <td class="fname">{{$teacher->firstName}}</td>
                                     <td class="subj">{{$teacher->subj_teaching}}</td>
                                     <td class="contact">{{$teacher->contactNo}}</td>
-                                    <td class="text-center">
-                                        <a class="btn btn-outline-primary tooltip-actbtn" href="{{route('admin.students.view', ['student' => "$teacher->id"])}}"><i class="far fa-eye"></i>
-                                            <div class="top">
-                                                <p class="tooltiptxt">View</p>
-                                            </div>
-                                        </a>
-                                        
+                                    <td class="text-center">       
                                         <div class="btn btn-outline-success tooltip-actbtn" id="edit-teacher" data-teacher-id="{{$teacher->id}}"><i class="fas fa-pencil-alt"></i>
                                             <div class="top">
                                                 <p class="tooltiptxt">Edit</p>

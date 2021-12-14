@@ -26,6 +26,7 @@
                                     <th>ID</th>
                                     <th>Subject</th>
                                     <th>Schedule</th>
+                                    <th>Time</th>
                                     <th>Teacher</th>
                                     <th>Action</th>
                                 </tr>
@@ -37,17 +38,13 @@
                                     <input type="hidden" name="" class="subject" value="{{$class->subject->id}}">
                                     <td class="subjname">{{$class->subject->subjectName}}</td>
                                     <input type="hidden" name="" class="schedDay" value="{{$class->schedDay}}">
-                                    <input type="hidden" name="" class="schedTime" value="{{$class->schedTime}}">
-                                    <td>{{$class->schedDay}} | {{date("h:i A", strtotime($class->schedTime))}}</td>
+                                    <input type="hidden" name="" class="start_time" value="{{$class->schedTimeStart}}">
+                                    <input type="hidden" name="" class="end_time" value="{{$class->schedTimeEnd}}">
+                                    <td>{{$class->schedDay}}</td>
+                                    <td>{{date("h:i A", strtotime($class->schedTimeStart))}} - {{date("h:i A", strtotime($class->schedTimeEnd))}}</td>
                                     <input type="hidden" name="" class="teacher" value="{{$class->teacher->id}}">
                                     <td>{{$class->teacher->lastName}}, {{$class->teacher->firstName}}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-outline-primary tooltip-actbtn" href="{{route('admin.students.view', ['student' => "$class->id"])}}"><i class="far fa-eye"></i>
-                                            <div class="top">
-                                                <p class="tooltiptxt">View</p>
-                                            </div>
-                                        </a>
-                                        
                                         <div class="btn btn-outline-success tooltip-actbtn" id="edit-class" data-class-id="{{$class->id}}"><i class="fas fa-pencil-alt"></i>
                                             <div class="top">
                                                 <p class="tooltiptxt">Edit</p>
@@ -69,6 +66,7 @@
                                     <th>ID</th>
                                     <th>Subject</th>
                                     <th>Schedule</th>
+                                    <th>Time</th>
                                     <th>Teacher</th>
                                     <th>Action</th>
                                 </tr>

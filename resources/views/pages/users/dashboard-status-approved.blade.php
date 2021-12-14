@@ -8,16 +8,13 @@
 	<img src="{{asset('img/dashboard-bg.png')}}" alt="" class="bg">
 
     @include('component.user-sidebar')
-
+    @include('component.info_msg')
     <div class="dashboard-content">
         <div class="text">
             <div class="container-fluid">
                 <div class="row">
-                <hr>
                     <div class="col-md-12">
-
                         @include('items.dashboard-status-approved-form')
-
                     </div>
                 </div>
             </div>

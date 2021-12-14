@@ -34,6 +34,14 @@
         searchBtn.onclick = function(){
             sidebar.classList.toggle("active");
         }
+
+        $(function(){
+            $("#fileupload").change(function(event) {
+                var x = URL.createObjectURL(event.target.files[0]);
+                $("#users-profile").attr("src",x);
+                console.log(event);
+            });
+        }) 
         
     </script>
 

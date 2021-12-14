@@ -1,5 +1,5 @@
 
-<div class="card" id="user-card">
+<div class="card mb-2" id="">
 
     <div class="card-body" id="user-card-body">
         <div class="card-header" id="enrollment-header">
@@ -154,10 +154,10 @@
 
         <div class="form-group justify-content-between"> 
             <div class="col-md-2 float-end mt-1">
-                <button class="btn btn-primary form-control"><i class="fas fa-check"></i> Finish</button> 
+                <button class="btn btn-primary form-control"><i class="fad fa-check-double"></i> Finish</button> 
             </div>   
             <div class="col-md-2 float-start mt-1">
-                <a href="{{ route('user.payment') }}" class="btn btn-danger form-control"><i class="fas fa-arrow-left"></i> Back to Payments</a>
+                <a href="{{ route('user.payment') }}" class="btn btn-secondary form-control"><i class="fad fa-chevron-double-left"></i> Back to Payments</a>
             </div>
         </div>
     </div>

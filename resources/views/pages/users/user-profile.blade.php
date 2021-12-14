@@ -7,7 +7,7 @@
 <div class="wrapper">
 	
     @include('component.user-sidebar')
-
+    @include('component.info_msg')
     <div class="dashboard-content">
         <div class="text">
             <div class="container-fluid">

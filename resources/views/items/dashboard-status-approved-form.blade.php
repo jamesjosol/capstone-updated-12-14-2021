@@ -14,7 +14,7 @@
                                         <img src="{{asset('img/headerlogo.png')}}" alt="" style="width:90px; height:90px; margin-left:-20px;">
                                     </div>
                                     <div class="col-md-11 dashhead" style="margin-top: 10px;">
-                                        <h3>SALUS INSTITUTE OF TECHNOLOGY</h3>
+                                        <h3>SALUS INSTITUTE OF TECHNOLOGY, INC.</h3>
                                         <h5>ONLINE ENROLLMENT SYSTEM</h5>
                                         <h5>S.Y. {{\App\Models\SchoolYear::currentYear()}}</h5>
                                     </div>
@@ -69,7 +69,7 @@
                             @foreach ($enroll->classenrolls()->get() as $subject)
                               <tr>
                                 <th scope="row">{{$subject->session()->first()->subject()->first()->subjectName}}</th>
-                                <td>{{date("h:i A", strtotime($subject->session()->first()->schedTime))}}</td>
+                                <td>{{date("h:i A", strtotime($subject->session()->first()->schedTimeStart))}} - {{date("h:i A", strtotime($subject->session()->first()->schedTimeEnd))}}</td>
                                 <td>{{$subject->session()->first()->schedDay}}</td>
                                 <td>{{$subject->session()->first()->teacher()->first()->firstName}} {{$subject->session()->first()->teacher()->first()->lastName}}</td>
                               </tr>

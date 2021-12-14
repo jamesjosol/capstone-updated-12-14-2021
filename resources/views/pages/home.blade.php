@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="titless">
-                    <h1 class="Landingtitle">SALUS INSTITUTE OF TECHNOLOGY</h1>
+                    <h1 class="Landingtitle">SALUS INSTITUTE OF TECHNOLOGY, INC.</h1>
                     <h5 class="Landingsubtitle">ONLINE ENROLLMENT SYSTEM</h5>
                     <p class="SY">S.Y. {{ \App\Models\SchoolYear::CurrentYear() }}</p>
                 </div>

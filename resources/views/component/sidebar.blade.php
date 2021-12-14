@@ -33,10 +33,18 @@
 
         <li>
             <a href="{{ route('admin.enrolees') }}" class="{{ request()->is('admin/enrolees') ? 'active' : '' }}">
-                <i class="fad fa-user-graduate"></i>
+                <i class="fad fa-users"></i>
                 <span class="links-name">Enrolees</span>
             </a>
             <span class="tooltip">Enrolees</span>
+        </li>
+
+        <li>
+            <a href="{{ route('admin.enrolled') }}" class="{{ request()->is('admin/enrolled') ? 'active' : '' }}">
+                <i class="fad fa-user-graduate"></i>
+                <span class="links-name">Enrolled Students</span>
+            </a>
+            <span class="tooltip">Enrolled Students</span>
         </li>
 
         <li>
@@ -105,13 +113,6 @@
         </li>
         
 
-        <li>
-            <a href="">
-                <i class='bx bx-home'></i>
-                <span class="links-name">Home</span>
-            </a>
-            <span class="tooltip">Home</span>
-        </li>
         <li class="sidebar-spacer">
             <a>
                 <i class=''></i>

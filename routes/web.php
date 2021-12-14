@@ -164,8 +164,12 @@ Route::group(['middleware'=>'auth'], function() {
 
         Route::get('enrolees', [AdminController::class, 'showEnrolees'])->name('admin.enrolees');
         Route::get('enrolees/view/{enrolee}', [AdminController::class, 'viewEnrolee'])->name('admin.enrolees.view');
+        Route::post('enrolees/reject', [AdminController::class, 'rejectEnrolee'])->name('admin.enrolee.reject');
         Route::get('enrolees/set/{enrolee}', [AdminController::class, 'setApprovedEnrolee'])->name('admin.setenrolee');
         Route::post('enrolees/set/{enrolee}', [AdminController::class, 'storeEnrollStudent'])->name('admin.storeenrolee');
+
+        Route::get('enrolled', [AdminController::class, 'showEnrolledStudents'])->name('admin.enrolled');
+        Route::get('enrolled/view/{enrolledStudent}', [AdminController::class, 'viewEnrolledStudent'])->name('admin.enrolled.view');
 
         Route::get('logs', [AdminController::class, 'showLogs'])->name('admin.logs');
     });
@@ -188,6 +192,8 @@ Route::group(['middleware'=>'auth'], function() {
         Route::get('myprofile', [UserController::class, 'myProfile'])->name('user.myprofile');
         Route::get('updateprofile', [UserController::class, 'editProfile'])->name('user.updateprofile');
         Route::patch('updateprofile', [UserController::class, 'updateProfile'])->name('user.updateprofile');
+        Route::get('changepassword', [UserController::class, 'changePassword'])->name('user.changepassword');
+        Route::post('changepassword', [UserController::class, 'storeNewPassword'])->name('user.changepassword');
     });
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

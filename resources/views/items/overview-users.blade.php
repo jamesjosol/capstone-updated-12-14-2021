@@ -1,4 +1,4 @@
-<h1 class="text-uppercase mb-5" id="dashusers"><strong>Users card</strong> <i class="fa fa-users"></i></h1>
+<h1 class="text-uppercase mb-5" id="dashusers">Statistics <i class="fa fa-users"></i></h1>
 
 <div class="col-md-3">
 
@@ -22,13 +22,7 @@
                     </div>
                 </div>        
             </div>
-            <div class="row">
-                <div class="col">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: {{$adminsBarWidth}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{$adminsBarWidth}}%</div>
-                    </div>
-                </div>        
-            </div>
+           
 
             <div class="clicktoview">
                 <p>Click to View</p>
@@ -46,9 +40,9 @@
                 <div class="status-card">
 
                     <div class="stat-card__content">
-                        <p class="text-uppercase md-1 text-muted">Staffs</p>
+                        <p class="text-uppercase md-1 text-muted">Normal Users</p>
 
-                        <h1 class="total">14</h1>
+                        <h1 class="total">{{$normalusers}}</h1>
                     </div>
                     <div class="stat-card__icon--success">
                         <div class="stat-card__icon-circle">
@@ -59,16 +53,9 @@
                 </div>
             </div>        
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                </div>
-            </div>        
-        </div>
 
         <div class="clicktoview">
-            <p>Click to View</p>
+            <p><a href="{{ route('admin.users') }}">Click to View </a></p>
         </div>
     </div>
 
@@ -82,9 +69,9 @@
                 <div class="status-card">
 
                     <div class="stat-card__content">
-                        <p class="text-uppercase md-1 text-muted">Teachers</p>
+                        <p class="text-uppercase md-1 text-muted">Enrolees</p>
 
-                        <h1 class="total">30</h1>
+                        <h1 class="total">{{$enroleesCount}}</h1>
                     </div>
                     <div class="stat-card__icon--warning">
                         <div class="stat-card__icon-circle">
@@ -95,32 +82,24 @@
                 </div>
             </div>        
         </div>
-        <div class="row">
-            <div class="col">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 55%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">55%</div>
-                </div>
-            </div>        
-        </div>
 
         <div class="clicktoview">
-            <p>Click to View</p>
+            <p><a href="{{ route('admin.enrolees') }}">Click to View </a></p>
         </div>
     </div>
 
 </div>
 
 <div class="col-md-3">
-
     <div class="stat-card-student">
         <div class="row">
             <div class="col">
                 <div class="status-card">
 
                     <div class="stat-card__content">
-                        <p class="text-uppercase md-1 text-muted">Students</p>
+                        <p class="text-uppercase md-1 text-muted">Enrolled</p>
 
-                        <h1 class="total">709</h1>
+                        <h1 class="total">{{$enrolleds}}</h1>
                     </div>
                     <div class="stat-card__icon--danger">
                         <div class="stat-card__icon-circle">
@@ -131,16 +110,116 @@
                 </div>
             </div>        
         </div>
+    
+        <div class="clicktoview">
+            <p><a href="{{ route('admin.enrolled') }}">Click to View </a></p>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="stat-card-teachers">
         <div class="row">
             <div class="col">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">85%</div>
+                <div class="status-card">
+                    <div class="stat-card__content">
+                        <p class="text-uppercase md-1 text-muted">Teacher</p>
+
+                        <h1 class="total">{{$teachers}}</h1>
+                    </div>
+                    <div class="stat-card__icon--danger">
+                        <div class="stat-card__icon-circle"  style="background-color: #f7a9db;">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+
                 </div>
             </div>        
         </div>
-
+       
         <div class="clicktoview">
-            <p>Click to View</p>
+            <p><a href="{{ route('admin.teachers') }}">Click to View </a></p>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-md-3">
+    <div class="stat-card-teachers sections--">
+        <div class="row">
+            <div class="col">
+                <div class="status-card">
+                    <div class="stat-card__content">
+                        <p class="text-uppercase md-1 text-muted">Subjects</p>
+
+                        <h1 class="total">{{$subjects}}</h1>
+                    </div>
+                    <div class="stat-card__icon--danger">
+                        <div class="stat-card__icon-circle"  style="background-color: #ffbd91;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>        
+        </div>
+        
+        <div class="clicktoview">
+            <p><a href="{{ route('admin.subjects') }}">Click to View </a></p>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-md-3">
+    <div class="stat-card-teachers subjects--">
+        <div class="row">
+            <div class="col">
+                <div class="status-card">
+                    <div class="stat-card__content">
+                        <p class="text-uppercase md-1 text-muted">Sections</p>
+
+                        <h1 class="total">{{$sections}}</h1>
+                    </div>
+                    <div class="stat-card__icon--danger">
+                        <div class="stat-card__icon-circle"  style="background-color: #f38181;">
+                            <i class="fa fa-school"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>        
+        </div>
+       
+        <div class="clicktoview">
+            <p><a href="{{ route('admin.sections') }}">Click to View </a></p>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-md-3">
+    <div class="stat-card-teachers">
+        <div class="row">
+            <div class="col">
+                <div class="status-card">
+                    <div class="stat-card__content">
+                        <p class="text-uppercase md-1 text-muted">Classes</p>
+
+                        <h1 class="total">{{$classes}}</h1>
+                    </div>
+                    <div class="stat-card__icon--danger">
+                        <div class="stat-card__icon-circle"  style="background-color: #f7a9db;">
+                            <i class="fa fa-book-reader"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>        
+        </div>
+       
+        <div class="clicktoview">
+            <p><a href="{{ route('admin.classes') }}">Click to View </a></p>
         </div>
     </div>
 

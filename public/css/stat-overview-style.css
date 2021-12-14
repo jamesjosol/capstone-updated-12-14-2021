@@ -240,3 +240,35 @@
 .total {
     font-size: 45px;
 }
+
+.stat-card-teachers .clicktoview {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: -20px;
+    font-size: 15px;
+}
+
+
+.stat-card-teachers {
+    background: rgb(247, 198, 230);
+    padding: 15px;
+    margin-bottom: 55px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+
+.stat-card-teachers:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.sections-- {
+    background: rgb(255, 216, 190);
+}
+
+.subjects-- {
+    background: rgb(248, 166, 166);
+}

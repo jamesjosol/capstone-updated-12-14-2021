@@ -19,7 +19,7 @@
                             </label>
                             {{-- <input type="file" id="fileupload"> --}}
                             {!! Form::file('profile_pic', ['id'=>'fileupload', 'accept' => "image/*"]) !!}
-                            <span class="errspan p-info-err-span" id="errspan">{{ $errors->first('profile_pic') }}</span>
+                            <span class="errspan p-info-err-span" id="errspan">@error('profile_pic')<i class="fas fa-exclamation-circle"></i>@enderror {{ $errors->first('profile_pic') }}</span>
                         </div>
                     </div>
                 </div> 

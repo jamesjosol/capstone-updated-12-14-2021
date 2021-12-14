@@ -25,17 +25,23 @@
                 <span class="errspan" id="errspan">{{ $errors->first('teacher_id') }}</span> 
             </div>
         
+            <div class="mb-3 form-group @error('schedDay') has-error @enderror">
+                {!! Form::label('schedDay','Schedule',[],false) !!}
+                {!! Form::text('schedDay', null, ['class'=>'form-control', 'id'=>'modal-input-day','required' => '']) !!}
+                <span class="errspan" id="errspan">{{ $errors->first('schedDay') }}</span> 
+            </div>
+
             <div class="mb-4">
                 <div class="row">
-                    <div class="col form-group @error('schedule') has-error @enderror">
-                        {!! Form::label('schedDay','Schedule',[],false) !!}
-                        {!! Form::text('schedDay', null, ['class'=>'form-control', 'id'=>'modal-input-day','required' => '']) !!}
-                        <span class="errspan" id="errspan">{{ $errors->first('schedDay') }}</span>    
+                    <div class="col form-group @error('schedTimeStart') has-error @enderror">
+                        {!! Form::label('schedTimeStart','Time',[],false) !!}
+                        {!! Form::time('schedTimeStart', 'null', ['class'=>'form-control', 'id'=>'modal-input-starttime','required' => '']) !!}
+                        <span class="errspan" id="errspan">{{ $errors->first('schedTimeStart') }}</span>    
                     </div>
-                    <div class="col form-group @error('schedTime') has-error @enderror">
-                        {!! Form::label('schedTime','Time',[],false) !!}
-                        {!! Form::time('schedTime', 'null', ['class'=>'form-control', 'id'=>'modal-input-time','required' => '']) !!}
-                        <span class="errspan" id="errspan">{{ $errors->first('schedTime') }}</span>    
+                    <div class="col form-group @error('schedTimeEnd') has-error @enderror">
+                        {!! Form::label('schedTimeEnd','Time',[],false) !!}
+                        {!! Form::time('schedTimeEnd', 'null', ['class'=>'form-control', 'id'=>'modal-input-endtime','required' => '']) !!}
+                        <span class="errspan" id="errspan">{{ $errors->first('schedTimeEnd') }}</span>    
                     </div>
                 </div>
             </div>
@@ -69,7 +75,8 @@
             var teacher = row.children(".teacher").val();
             var subject = row.children(".subject").val();
             var day = row.children(".schedDay").val();
-            var time = row.children(".schedTime").val();
+            var start_time = row.children(".start_time").val();
+            var end_time = row.children(".end_time").val();
 
             var prevrow = el.parents('tr')
             // check if is responsive
@@ -77,14 +84,16 @@
                 var teacher = prevrow.prev().children(".teacher").val();
                 var subject = prevrow.prev().children(".subject").val();
                 var day = prevrow.prev().children(".schedDay").val();
-                var time = prevrow.prev().children(".schedTime").val();
+                var start_time = row.children(".start_time").val();
+                var end_time = row.children(".end_time").val();
             }
             
             $("#modal-input-id").val(id);
             $("#modal-input-teacher").val(teacher);
             $("#modal-input-subject").val(subject);
             $("#modal-input-day").val(day);
-            $("#modal-input-time").val(time);
+            $("#modal-input-starttime").val(start_time);
+            $("#modal-input-endtime").val(end_time);
 
         })
 

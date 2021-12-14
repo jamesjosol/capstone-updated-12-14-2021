@@ -216,6 +216,20 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
+
+                                            <table style="font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                <tbody>
+                                                  <tr>
+                                                    <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 25px 10px;font-family:'Open Sans',sans-serif;" align="left">
+                                                      
+                                                    <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
+                                                    <p style="font-size: 14px; line-height: 140%; color:#202020;">If you're having trouble clicking the "Verify My Account" button, copy and paste the URL below into your web browser: {{ url('/verification/' . $user->id . "/" . $user->remember_token) }}</p>
+                                                    </div>
+                                              
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
                                             <div class="footer" style="box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 20px;">
                                                 <table width="100%" style="box-sizing: border-box; font-size: 14px; margin: 0;">
                                                     <tbody>

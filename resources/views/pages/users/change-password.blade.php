@@ -11,21 +11,11 @@
     <div class="dashboard-content">
         <div class="text">
             <div class="container-fluid">
-                <a href="/">Dashboard</a> /                
-                <?php $link = "" ?>
-                @for($i = 1; $i <= count(Request::segments()); $i++)
-                    @if($i < count(Request::segments()) & $i > 0)
-                    <?php $link .= "/" . Request::segment($i); ?>
-                    <a href="<?= $link ?>">{{ ucwords(str_replace('-',' ',Request::segment($i)))}}</a>
-                    @else {{ucwords(str_replace('-',' ',Request::segment($i)))}}
-                    @endif
-                @endfor
                 <div class="row">
-
                     <div class="col-md-4 offset-md-4 mt-5">
-
+                        {!! Form::open(["route" => "user.changepassword", 'method' => 'post',]) !!}
                         @include('items.change-pass-form')
-
+                        {!! Form::close() !!}
                     </div>
 
                 </div>

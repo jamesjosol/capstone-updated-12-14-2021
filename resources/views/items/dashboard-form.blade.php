@@ -1,8 +1,6 @@
 <div class="row">
-    <div class="col-md-12">
-
+    <div class="col-md-12 mb-2">
         <h1 class="mt-4" style="color: green;">Dashboard</h1>
-        {{ Breadcrumbs::render('home') }}
         <div class="card mt-3">
             <div class="card-header" style="height: auto;">
                 <div class="row">
@@ -14,17 +12,15 @@
                                         <img src="{{asset('img/headerlogo.png')}}" alt="" style="width:90px; height:90px; margin-left:-20px;">
                                     </div>
                                     <div class="col-md-11 dashhead" style="margin-top: 10px;">
-                                        <h3>SALUS INSTITUTE OF TECHNOLOGY</h3>
+                                        <h3>SALUS INSTITUTE OF TECHNOLOGY, INC.</h3>
                                         <h5>ONLINE ENROLLMENT SYSTEM</h5>
                                         <h5>S.Y. {{ \App\Models\SchoolYear::CurrentYear() }}</h5>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
+                    </div>   
                 </div>
-
             </div>
 
             <div class="card-body">
@@ -74,7 +70,7 @@
                     @endif
 
                     @if (auth()->user()->student()->exists())
-                        asdasda
+                       
                             
                     @else
                     <div>

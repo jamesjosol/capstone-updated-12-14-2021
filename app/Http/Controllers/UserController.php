@@ -10,15 +10,15 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
     public function index() {
-    //    dd(auth()->user()->student()->first()->id);
         
         if(auth()->user()->student()->exists()) {
             if($enroll = Enroll::checkHasPendingEnrollment()->first()) {
-                // dd("wew");
                 return view('pages.users.dashboard-status-pending', compact('enroll'));
             }else if($enroll = Enroll::checkHasApprovedEnrollment()->first()) {
                 return view('pages.users.dashboard-status-approved', compact('enroll'));
@@ -115,8 +115,10 @@ class UserController extends Controller
 
         if(!auth()->user()->student()->exists()) {
             return redirect()->route('user.personalinfo')->with('Notice', 'Please fill up your personal information first.');
+        }else if(auth()->user()->student()->first()->enrolls()->exists()) {
+            return redirect()->route('user.dashboard')->with('Notice', 'You already submitted an enrollment.');
         }
-        
+
         $enrollment = $request->session()->get('enrollment');
 
         return view('pages.users.enrollment',compact('enrollment'));
@@ -148,7 +150,7 @@ class UserController extends Controller
             $request->validate([
                 'requiredFile'          => 'required',
                 'title'                 => 'required|string',
-                'remarks'               => 'required|string',
+                'remarks'               => 'string|nullable',
             ], [
                 'requiredFile.required' => 'You must submit required documents.',
             ]);
@@ -282,15 +284,18 @@ class UserController extends Controller
         if(!File::exists($path)) {
             File::makeDirectory($path, $mode = 0777, true, true);
         }
-
-        foreach(json_decode($enrollment->requirement_images) as $file) {           
-            File::move(storage_path("app/temp/$file"), storage_path("app/files/$file"));
+        if(isset($enrollment->requirement_images)) {
+            foreach(json_decode($enrollment->requirement_images) as $file) {           
+                File::move(storage_path("app/temp/$file"), storage_path("app/files/$file"));
+            }
         }
-
+    
         $file = $enrollment->payment_image;
         File::move(storage_path("app/temp/$file"), storage_path("app/files/$file"));
 
         $enrollment->save();
+
+        event(new UserLog("User submitted an enrollment form with ID#$enrollment->id"));  
 
         $request->session()->forget('enrollment');
         return redirect()->route('user.dashboard');
@@ -316,12 +321,47 @@ class UserController extends Controller
             'username'              => 'required|string|unique:users,username,'.auth()->user()->id,
             'contactNo'             => 'required|numeric|regex:/(09)[0-9]{9}/',
         ]);
+
         $user = User::find(auth()->user()->id);
+
+        if(isset($request->profile_pic)) {
+            $file_path = public_path("images/$user->profile_pic");
+            File::delete($file_path);
+            $imageName = time() . $request->lastName.'.'.$request->profile_pic->extension(); 
+
+            $user->profile_pic = $imageName;
+            $user->save();
+
+            $request->profile_pic->move(public_path('images'), $imageName); 
+        }
 
         $user->update($request->all());
 
         event(new UserLog("Updated user with ID#$user->id"));   
     
-        return redirect()->route('user.myprofile')->with('Message', "User [ID #$request->id] has been successfully updated.");
+        return redirect()->route('user.myprofile')->with('Message', "User profile has been successfully updated.");
+    }
+
+    public function changePassword() {
+        return view('pages.users.change-password');
+    }
+
+    public function storeNewPassword(Request $request) {
+        $request->validate([
+            'old_password'             => 'required|string',
+            'new_password'             => 'required|string|min:8|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation'    => 'required|string|min:8',
+        ]);
+
+        $user = User::find(auth()->user()->id);
+    
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+            event(new UserLog("User changed password."));  
+            return redirect()->route('user.myprofile')->with('Message', "Password has been successfully changed.");
+        }
+
+        throw ValidationException::withMessages(['old_password' => 'Current password does not match.']);
     }
 }

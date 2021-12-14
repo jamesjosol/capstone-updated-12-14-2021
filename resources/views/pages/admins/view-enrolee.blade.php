@@ -15,13 +15,13 @@
                     <div class="col-md-10 offset-md-1">
 
                         @include('items.view-enrolee-form')
-
+            
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    @include('items.reject-enrolee')
     <script>
         let btn = document.querySelector("#btn-menu");
         let sidebar = document.querySelector(".sidebar");

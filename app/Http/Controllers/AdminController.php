@@ -19,10 +19,33 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function index() {
+        $enrolees = Enroll::where('status', 'Pending')
+            ->where('school_year_id', SchoolYear::currentYearAttr()->id ?? '')
+            ->orderBy('created_at')
+            ->get();
+        $enroleesCount = $enrolees->count();
+        $enrolled = Enroll::where('status', 'Approved')
+            ->where('school_year_id', SchoolYear::currentYearAttr()->id ?? '')
+            ->get();
+        $countGLvl = [];
+        for ($x = 1; $x <= 6; $x++) {
+            $countGLvl[] = Enroll::where('status', 'Approved')
+                ->where('school_year_id', SchoolYear::currentYearAttr()->id ?? '')
+                ->where('level_id', $x ?? '')
+                ->get()->count();
+        }
+
+        $enrolleds = $enrolled->count();
         $totalUsers = User::get()->count();
         $admins = User::where('role', 1)->get()->count();
+        $normalusers = User::where('role', 2)->get()->count();
+        $teachers = Teacher::get()->count();
+        $subjects = Subject::get()->count();
+        $sections = Section::get()->count();
+        $classes = Session::get()->count();
+
         $adminsBarWidth = ($admins / $totalUsers) * 100;
-        return view('pages.admins.index', compact('admins', 'adminsBarWidth'));
+        return view('pages.admins.index', compact('admins', 'normalusers', 'adminsBarWidth', 'enrolees', 'enroleesCount', 'enrolled', 'enrolleds', 'teachers', 'subjects', 'sections', 'classes', 'countGLvl'));
     }
 
     public function showUsers() {
@@ -60,7 +83,7 @@ class AdminController extends Controller
             'role'              => $request->role,
             'remember_token'    => $token,
         ]);
-
+        event(new UserLog("Created new user with ID#$user->id."));  
         return redirect()->route('admin.users')->with('Message', 'User has been successfully created.');
         
     }
@@ -97,7 +120,7 @@ class AdminController extends Controller
         $user = User::find($request->id);
         $id = $request->id;
         $user->delete();
-
+        event(new UserLog("Delete user with ID#$id."));  
         return redirect()->route('admin.users')->with('Message', "User [ID #$id] has been successfully deleted.");
     }
 
@@ -189,6 +212,7 @@ class AdminController extends Controller
             'secondaryYrAttnd'        => $request->secondaryYrAttnd,
         ]);
 
+        event(new UserLog("Created new student with ID#$student->id."));  
         return redirect()->route('admin.students')->with('Message', 'Student has been successfully created.');
     }
 
@@ -199,34 +223,33 @@ class AdminController extends Controller
 
     public function updateStudent(Student $student, Request $request) {
         $request->validate([
-            'profile_pic'                 => 'mimes:jpeg,png,jpg',
-            'firstName'             => 'required|string',
-            'lastName'              => 'required|string',
-            'middleName'            => 'required|string',
-            'gender'                 => 'required|string',
-            'birthDate'              => 'required|date',
-            'birthPlace'             => 'required|string',
-            'nationality'             => 'required|string',
-            'religion'             => 'required|string',
-            'civilStatus'           => 'required|string',
-            'fatherName'             => 'required|string',
-            'fatherOccup'             => 'required|string',
-            'fatherContact'             => 'numeric',
-            'motherName'             => 'required|string',
-            'motherOccup'             => 'required|string',
-            'motherContact'             => 'numeric',
-            'guardianName'          => 'string',
-            'guardianContact'       => 'numeric',
-            'barangay'             => 'required|string',
-            'town'             => 'required|string',
-            'province'             => 'required|string',
-            'grade_LVL'          => 'required|string',
-            'elemSchool'             => 'required|string',
-            'elemSchlAddr'             => 'required|string',
-            'elemYrAttnd'             => 'required|string',
-            'secondarySchool'             => 'string',
-            'secondarySchlAddr'             => 'string',
-            'secondaryYrAttnd'             => 'string',
+            'profile_pic'           => 'mimes:jpeg,png,jpg',
+            'firstName'             => 'required|string|max:40',
+            'lastName'              => 'required|string|max:40',
+            'middleName'            => 'required|string|max:40',
+            'gender'                => 'required|string|max:10',
+            'birthDate'             => 'required|date',
+            'birthPlace'            => 'required|string',
+            'nationality'           => 'required|string|max:30',
+            'religion'              => 'required|string|max:30',
+            'civilStatus'           => 'required|string|max:30',
+            'fatherName'            => 'required|string|max:120',
+            'fatherOccup'           => 'required|string|max:120',
+            'fatherContact'         => 'numeric|regex:/(09)[0-9]{9}/|nullable',
+            'motherName'            => 'required|string|max:30',
+            'motherOccup'           => 'required|string|max:30',
+            'motherContact'         => 'numeric|regex:/(09)[0-9]{9}/|nullable',
+            'guardianName'          => 'nullable',
+            'guardianContact'       => 'numeric|regex:/(09)[0-9]{9}/|nullable',
+            'barangay'              => 'required|string|max:191',
+            'town'                  => 'required|string|max:191',
+            'province'              => 'required|string|max:191',
+            'elemSchool'            => 'required|string|max:191',
+            'elemSchlAddr'          => 'required|string|max:191',
+            'elemYrAttnd'           => 'required|string|max:191',
+            'secondarySchool'       => 'string|max:191|nullable',
+            'secondarySchlAddr'     => 'string|max:191|nullable',
+            'secondaryYrAttnd'      => 'string|max:191|nullable',
         ]);
 
         if(!empty($request->profile_pic)) {
@@ -241,6 +264,8 @@ class AdminController extends Controller
         
         $student->update($request->all());
 
+        event(new UserLog("Updated student with ID#$student->id."));  
+
         return redirect()->route('admin.students')->with('Message', "Student [ID #$student->id] has been successfully updated.");
     }
 
@@ -249,7 +274,7 @@ class AdminController extends Controller
         $student = Student::find($request->id);
         $id = $request->id;
         $student->delete();
-
+        event(new UserLog("Deleted student with ID#$id."));  
         return redirect()->route('admin.students')->with('Message', "Student [ID #$id] has been successfully deleted.");
     }
 
@@ -275,6 +300,7 @@ class AdminController extends Controller
             'contactNo'         => $request->contactNo,
         ]);
 
+        event(new UserLog("Created new teacher with ID#$teacher->id."));  
         return redirect()->route('admin.teachers')->with('Message', 'Teacher has been successfully created.');
         
     }
@@ -291,7 +317,7 @@ class AdminController extends Controller
         $teacher = Teacher::find($request->id);
 
         $teacher->update($request->all());
-        
+        event(new UserLog("Updated teacher with ID#$teacher->id.")); 
         return redirect()->route('admin.teachers')->with('Message', "Teacher [ID #$request->id] has been successfully updated.");
     }
 
@@ -300,7 +326,7 @@ class AdminController extends Controller
         $teacher = Teacher::find($request->id);
         $id = $request->id;
         $teacher->delete();
-
+        event(new UserLog("Deleted teacher with ID#$id.")); 
         return redirect()->route('admin.teachers')->with('Message', "Teacher [ID #$id] has been successfully deleted.");
     }
 
@@ -320,7 +346,7 @@ class AdminController extends Controller
             'subjectName'         => $request->subjectName,
             'subjectDescription'  => $request->subjectDescription,
         ]);
-
+        event(new UserLog("Created new subject with ID#$subject->id.")); 
         return redirect()->route('admin.subjects')->with('Message', "Subject ($subject->subjectName) has been successfully created.");
     }
 
@@ -335,7 +361,7 @@ class AdminController extends Controller
         $subject = Subject::find($request->id);
 
         $subject->update($request->all());
-
+        event(new UserLog("Updated subject with ID#$subject->id.")); 
         return redirect()->route('admin.subjects')->with('Message', "Subject [ID #$request->id] has been successfully updated.");
     }
 
@@ -343,7 +369,7 @@ class AdminController extends Controller
         $subject = Subject::find($request->id);
         $id = $request->id;
         $subject->delete();
-
+        event(new UserLog("Deleted subject with ID#$id.")); 
         return redirect()->route('admin.subjects')->with('Message', "Subject [ID #$id] has been successfully deleted.");
     }
 
@@ -366,7 +392,7 @@ class AdminController extends Controller
             'teacher_id'    => $request->teacher_id,
             'level_id'      => $request->level_id
         ]);
-
+        event(new UserLog("Created new section with ID#$section->id."));
         return redirect()->route('admin.sections')->with('Message', "Section ($section->name) has been successfully created.");
     }
 
@@ -383,7 +409,7 @@ class AdminController extends Controller
         $section = Section::find($request->id);
 
         $section->update($request->all());
-
+        event(new UserLog("Updated section with ID#$section->id."));
         return redirect()->route('admin.sections')->with('Message', "Section ($section->name) has been successfully updated.");
     }
 
@@ -391,7 +417,7 @@ class AdminController extends Controller
         $section = Section::find($request->id);
         $name = $section->name;
         $section->delete();
-
+        event(new UserLog("Deleted section with ID#$section->id."));
         return redirect()->route('admin.sections')->with('Message', "Section ($name) has been successfully deleted.");
     }
 
@@ -405,7 +431,8 @@ class AdminController extends Controller
             'teacher_id'    => 'required|numeric',
             'subject_id'    => 'required|numeric',
             'schedule'      => 'required|string',
-            'time'          => 'required|string',
+            'start_time'    => 'required|string',
+            'end_time'      => 'required|string',
            
         ]);
 
@@ -413,9 +440,10 @@ class AdminController extends Controller
             'teacher_id'    => $request->teacher_id,
             'subject_id'    => $request->subject_id,
             'schedDay'      => $request->schedule,
-            'schedTime'     => $request->time,
+            'schedTimeStart'=> $request->start_time,
+            'schedTimeEnd'  => $request->end_time,
         ]);
-
+        event(new UserLog("Created new class with ID#$class->id."));
         return redirect()->route('admin.classes')->with('Message', "Class has been successfully created.");
     }
 
@@ -425,13 +453,14 @@ class AdminController extends Controller
             'teacher_id'    => 'required|numeric',
             'subject_id'    => 'required|numeric',
             'schedDay'      => 'required|string',
-            'schedTime'     => 'required|string',
+            'schedTimeStart'=> 'required|string',
+            'schedTimeEnd'  => 'required|string',
         ]);
 
         $class = Session::find($request->id);
 
         $class->update($request->all());
-
+        event(new UserLog("Updated class with ID#$class->id."));
         return redirect()->route('admin.classes')->with('Message', "Class [ID #$request->id] has been successfully updated.");
     }
 
@@ -439,7 +468,7 @@ class AdminController extends Controller
         $class = Session::find($request->id);
         $id = $request->id;
         $class->delete();
-
+        event(new UserLog("Deleted class with ID#$id."));
         return redirect()->route('admin.classes')->with('Message', "Section [ID #$id] has been successfully deleted.");
     }
 
@@ -459,7 +488,7 @@ class AdminController extends Controller
             'schoolYr_ended'      => $request->schoolYr_ended,
             'status'              => 'inactive'
         ]);
-
+        event(new UserLog("Created school year with ID#$schoolyear->id."));
         return redirect()->route('admin.schoolyear')->with('Message', "School Year has been successfully created.");
     }
 
@@ -473,7 +502,7 @@ class AdminController extends Controller
         $schoolyear->status = 'active';
         $schoolyear->save();
         SchoolYear::where('id', '!=', $request->id)->update(['status' => 'inactive']);;
-
+        event(new UserLog("Updated schoolyear with ID#$schoolyear->id."));
         return redirect()->route('admin.schoolyear')->with('Message', "$schoolyear->schoolYr_started - $schoolyear->schoolYr_ended has been set as current school year.");
     }
 
@@ -481,12 +510,15 @@ class AdminController extends Controller
         $schoolyear = SchoolYear::find($request->id);
         $sy_temp = $schoolyear->schoolYr_started . ' - ' . $schoolyear->schoolYr_ended;
         $schoolyear->delete();
-
+        event(new UserLog("Deleted schoolyear with $sy_temp."));
         return redirect()->route('admin.schoolyear')->with('Message', "School Year $sy_temp has been successfully deleted.");
     }
 
     public function showEnrolees() {
-        $enrolees = Enroll::where('status', 'Pending')->orderBy('created_at')->get();
+        $enrolees = Enroll::where('status', 'Pending')
+            ->where('school_year_id', SchoolYear::currentYearAttr()->id ?? '')
+            ->orderBy('created_at')
+            ->get();
 
         return view('pages.admins.enrolees', compact('enrolees'));
     }
@@ -518,7 +550,7 @@ class AdminController extends Controller
         }
 
         $enrolee->save();
-
+        event(new UserLog("Approved enrolee with ID#$enrolee->id."));
         return redirect()->route('admin.enrolees')->with('Message', "Student has been enrolled.");
     }
 
@@ -527,4 +559,32 @@ class AdminController extends Controller
         
         return view('pages.admins.logs', compact('logs'));
     }
+
+    public function showEnrolledStudents() {
+        $enrolledStudents = Enroll::where('status', 'Approved')
+        ->where('school_year_id', SchoolYear::currentYearAttr()->id ?? '')
+        ->orderBy('level_id')
+        ->get();
+
+        return view('pages.admins.enrolled', compact('enrolledStudents'));
+    }
+
+    public function viewEnrolledStudent(Enroll $enrolledStudent) {
+        return view('pages.admins.enrolled-view', compact('enrolledStudent'));
+    }
+
+    public function rejectEnrolee(Request $request) {
+        $request->validate([
+            'enrolee_id'      => 'required|numeric',
+        ]);
+       
+        $enrolee = Enroll::find($request->enrolee_id);
+        
+        $enrolee->status = 'Rejected';
+      
+        $enrolee->save();
+        event(new UserLog("Rejected enrolee with ID#$enrolee->id."));
+        return redirect()->route('admin.enrolees')->with('Message', "Enrolee has been rejected.");
+    }
 }
+

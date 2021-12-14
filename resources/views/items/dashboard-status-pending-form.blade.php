@@ -14,7 +14,7 @@
                                         <img src="{{asset('img/headerlogo.png')}}" alt="" style="width:90px; height:90px; margin-left:-20px;">
                                     </div>
                                     <div class="col-md-11 dashhead" style="margin-top: 10px;">
-                                        <h3>SALUS INSTITUTE OF TECHNOLOGY</h3>
+                                        <h3>SALUS INSTITUTE OF TECHNOLOGY, INC.</h3>
                                         <h5>ONLINE ENROLLMENT SYSTEM</h5>
                                         <h5>S.Y. {{\App\Models\SchoolYear::currentYear()}}</h5>
                                     </div>
@@ -22,7 +22,12 @@
                             </div>
                             @isset($enroll->status)
                             <div class="col-md-3 float-end">
-                                <h2 class="status">Status: <span class="text-info"> <i class="fad fa-minus-circle"></i> {{ $enroll->status }}</span></h2>
+                                @if ($enroll->status == 'Pending')
+                                    <h2 class="status">Status: <span class="text-info"> <i class="fad fa-minus-circle"></i> {{ $enroll->status }}</span></h2>
+                                @elseif($enroll->status == 'Rejected')
+                                <h2 class="status">Status: <span class="text-danger"> <i class="fad fa-times-circle"></i> {{ $enroll->status }}</span></h2>
+                                @endif
+                                
                             </div>
                             @endisset
                         </div>

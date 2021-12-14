@@ -59,6 +59,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-1">
+                                <label for="" class="form-label">Date: <span style="color: green">{{date("F j, Y, g:i a", strtotime($enrolee->created_at))}} </span></label>
+                                <div class="col form-group" id="info">
+                                    <label for="strand" class="form-label"></label>
+                                </div>
+                            </div>
                             @endif
                         </div>
                     </div>  
@@ -163,7 +169,7 @@
                 </a>
             </div>   
             <div class="col-md-2 float-start mt-1">
-                <a href="" class="btn btn-danger form-control"><i class="fas fa-arrow-left"></i> Reject</a>
+                <button class="btn btn-danger form-control" id="reject-enrolee"><i class="fas fa-times"></i> Reject</button>
             </div>
         </div>
     </div>

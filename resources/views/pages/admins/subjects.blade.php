@@ -36,12 +36,6 @@
                                     <td class="subjname">{{$subject->subjectName}}</td>
                                     <td class="subjdesc">{{$subject->subjectDescription}}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-outline-primary tooltip-actbtn" href="{{route('admin.students.view', ['student' => "$subject->id"])}}"><i class="far fa-eye"></i>
-                                            <div class="top">
-                                                <p class="tooltiptxt">View</p>
-                                            </div>
-                                        </a>
-                                        
                                         <div class="btn btn-outline-success tooltip-actbtn" id="edit-subject" data-subject-id="{{$subject->id}}"><i class="fas fa-pencil-alt"></i>
                                             <div class="top">
                                                 <p class="tooltiptxt">Edit</p>

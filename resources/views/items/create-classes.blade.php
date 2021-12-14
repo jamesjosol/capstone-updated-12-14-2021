@@ -21,19 +21,26 @@
                 <span class="errspan" id="errspan">{{ $errors->first('teacher_id') }}</span> 
             </div>
 
+            <div class="mb-3 form-group @error('schedule') has-error @enderror">
+                {!! Form::label('schedule','Schedule',[],false) !!}
+                @error('schedule')<span class="errspanicon" id="errspanicon"><i class="fal fa-exclamation-circle"></i></span>@enderror
+                {!! Form::text('schedule', null, ['class'=>'form-control', 'id'=>'schedule','required' => '']) !!}
+                <span class="errspan" id="errspan">{{ $errors->first('schedule') }}</span>    
+            </div>
+
             <div class="mb-4">
                 <div class="row">
-                    <div class="col form-group @error('schedule') has-error @enderror">
-                        {!! Form::label('schedule','Schedule',[],false) !!}
-                        @error('schedule')<span class="errspanicon" id="errspanicon"><i class="fal fa-exclamation-circle"></i></span>@enderror
-                        {!! Form::text('schedule', null, ['class'=>'form-control', 'id'=>'schedule','required' => '']) !!}
-                        <span class="errspan" id="errspan">{{ $errors->first('schedule') }}</span>    
-                    </div>
-                    <div class="col form-group @error('time') has-error @enderror">
-                        {!! Form::label('time','Time',[],false) !!}
+                    <div class="col form-group @error('start_time') has-error @enderror">
+                        {!! Form::label('start_time','Start Time',[],false) !!}
                         @error('time')<span class="errspanicon" id="errspanicon"><i class="fal fa-exclamation-circle"></i></span>@enderror
-                        {!! Form::time('time', 'null', ['class'=>'form-control', 'id'=>'time','required' => '']) !!}
-                        <span class="errspan" id="errspan">{{ $errors->first('time') }}</span>    
+                        {!! Form::time('start_time', 'null', ['class'=>'form-control', 'id'=>'start_time','required' => '']) !!}
+                        <span class="errspan" id="errspan">{{ $errors->first('start_time') }}</span>    
+                    </div>
+                    <div class="col form-group @error('end_time') has-error @enderror">
+                        {!! Form::label('end_time','End Time',[],false) !!}
+                        @error('end_time')<span class="errspanicon" id="errspanicon"><i class="fal fa-exclamation-circle"></i></span>@enderror
+                        {!! Form::time('end_time', 'null', ['class'=>'form-control', 'id'=>'end_time','required' => '']) !!}
+                        <span class="errspan" id="errspan">{{ $errors->first('end_time') }}</span>    
                     </div>
                 </div>
             </div>

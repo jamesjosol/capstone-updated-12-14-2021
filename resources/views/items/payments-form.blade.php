@@ -1,4 +1,4 @@
-<div class="card mb-3 mt-3" >
+<div class="card mb-3 mt-1" >
     <div class="card-header" id="enrollment-header">
         <h1>Payments</h1>
     </div>

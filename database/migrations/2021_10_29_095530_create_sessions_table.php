@@ -18,7 +18,8 @@ class CreateSessionsTable extends Migration
             $table->bigInteger('teacher_id')->unsigned();
             $table->bigInteger('subject_id')->unsigned();
             $table->string('schedDay', 60);
-            $table->string('schedTime', 60);
+            $table->string('schedTimeStart', 60);
+            $table->string('schedTimeEnd', 60);
             $table->timestamps();
             
             $table->foreign('teacher_id')->references('id')->on('teachers');
