@@ -15,6 +15,7 @@ use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -549,8 +550,16 @@ class AdminController extends Controller
             ]);
         }
 
+        
         $enrolee->save();
         event(new UserLog("Approved enrolee with ID#$enrolee->id."));
+        $user = $enrolee->student()->first()->user()->first();
+        Mail::send('mail.approve-mail', ['user'=>$user], function($mail) use ($user){
+            $mail->to($user->email);
+            $mail->subject('Approved Enrollment');
+            $mail->from('salusenrollmentsystem@gmail.com', 'Salus Enrollment System');
+        }); 
+        
         return redirect()->route('admin.enrolees')->with('Message', "Student has been enrolled.");
     }
 

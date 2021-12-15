@@ -33,7 +33,7 @@ class Enroll extends Model
 
     public static function checkHasPendingEnrollment() {
         $results = Enroll::where('student_id', auth()->user()->student()->first()->id)
-        ->where('school_year_id', SchoolYear::currentYearAttr()->id)
+        ->where('school_year_id', SchoolYear::currentYearAttr()->id ?? '')
         ->where('status', 'Pending')
         ->orWhere('status', 'Rejected')
         ->get();
@@ -43,7 +43,7 @@ class Enroll extends Model
 
     public static function checkHasApprovedEnrollment() {
         $results = Enroll::where('student_id', auth()->user()->student()->first()->id)
-        ->where('school_year_id', SchoolYear::currentYearAttr()->id)
+        ->where('school_year_id', SchoolYear::currentYearAttr()->id ?? '')
         ->where('status', 'Approved')->get();
 
         return $results;

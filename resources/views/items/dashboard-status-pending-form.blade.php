@@ -27,7 +27,6 @@
                                 @elseif($enroll->status == 'Rejected')
                                 <h2 class="status">Status: <span class="text-danger"> <i class="fad fa-times-circle"></i> {{ $enroll->status }}</span></h2>
                                 @endif
-                                
                             </div>
                             @endisset
                         </div>
